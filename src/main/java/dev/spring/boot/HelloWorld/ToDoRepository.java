@@ -1,10 +1,9 @@
 package dev.spring.boot.HelloWorld;
 
-import org.springframework.stereotype.Component;
+import dev.spring.boot.HelloWorld.Entity.Todo;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Component
-public class ToDoRepository {
-    String getAllToDos(){
-        return "All ToDos";
-    }
+public interface ToDoRepository extends JpaRepository<Todo, Long> {
+
 }
+

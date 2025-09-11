@@ -1,44 +1,53 @@
 package dev.spring.boot.HelloWorld;
 
+import dev.spring.boot.HelloWorld.Entity.Todo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/todo")
 public class ToDoController {
+
     @Autowired
     private ToDoService toDoService;
 
-    @GetMapping("/get")
-    String getToDo(){
-        toDoService.printTodos();
-        return "Got the ToDo";
+    @PostMapping("/create")
+    ResponseEntity<Todo> createToDo(@RequestBody Todo todo){
+        return new ResponseEntity<>(toDoService.createTodo(todo), HttpStatus.OK);
     }
 
-    //Path Variable
-    @GetMapping("/{id}")
-    String getToDoWithId(@PathVariable long id){
-        return "Got the ToDo with ID " + id;
+    @GetMapping ("/{id}")
+    ResponseEntity<Todo> getToDoById(@PathVariable Long id){
+        try{
+            Todo CreatedTodo = toDoService.getTodoById(id);
+            return new ResponseEntity<>(CreatedTodo, HttpStatus.OK);
+        } catch (RuntimeException e){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
     }
 
-    @PutMapping("/{id}")
-    String updateToDoWithId(@PathVariable long id){
-        return "Update the ToDo with ID " + id;
+    @GetMapping
+    ResponseEntity<List<Todo>> getAllTodos(){
+        return new ResponseEntity<List<Todo>>(toDoService.getAllToDo(),HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    String deleteToDoWithId(@PathVariable long id){
-        return "Deleted the ToDo with ID " + id;
+    @GetMapping("/page")
+    ResponseEntity <Page<Todo>> getAllTodobyPage(@RequestParam int pageNo, @RequestParam int size){
+        return new ResponseEntity<>(toDoService.getAllByPage(pageNo,size),HttpStatus.OK);
     }
 
-    //Request Param
-    @GetMapping("")
-    String getToDoWithIdParam(@RequestParam("name") long id){
-        return "Got the ToDo with ID " + id;
+    @PutMapping("/update")
+    ResponseEntity<Todo> updateToDo(@RequestBody Todo todo){
+        return new ResponseEntity<>(toDoService.updateTodo(todo),HttpStatus.OK);
     }
 
-    @PostMapping("/login")
-    String LoginAccount(@RequestBody String body){
-        return body;
+    @DeleteMapping ("/delete/{id}")
+    void deleteToDoById(@PathVariable Long id){
+        toDoService.deleteById(id);
     }
 }
