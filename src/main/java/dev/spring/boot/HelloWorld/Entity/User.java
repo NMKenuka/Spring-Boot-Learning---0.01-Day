@@ -1,30 +1,28 @@
 package dev.spring.boot.HelloWorld.Entity;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-public class Todo {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Table(name = "userTable")
+public class User {
     @Id
     @GeneratedValue
     private Long id;
-    @NotBlank
-    @NotNull
-    @Schema (name = "title", example = "Complete Swagger Learning")
-    private String title;
-    @NotBlank
-    @NotNull
-    private String description;
-    private Boolean isCompleted;
     @Email
     private String email;
-}
+    private String password;
 
+}

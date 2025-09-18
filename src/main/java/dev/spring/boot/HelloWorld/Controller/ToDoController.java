@@ -1,6 +1,9 @@
-package dev.spring.boot.HelloWorld;
+package dev.spring.boot.HelloWorld.Controller;
 
 import dev.spring.boot.HelloWorld.Entity.Todo;
+import dev.spring.boot.HelloWorld.Service.ToDoService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -10,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/todo")
+@RequestMapping("api/v1/todo")
 public class ToDoController {
 
     @Autowired
@@ -22,6 +25,10 @@ public class ToDoController {
     }
 
     @GetMapping ("/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Todo retrieved Successfully"),
+            @ApiResponse(responseCode = "404", description = "Todo is not found in this id")
+    })
     ResponseEntity<Todo> getToDoById(@PathVariable Long id){
         try{
             Todo CreatedTodo = toDoService.getTodoById(id);

@@ -1,6 +1,7 @@
-package dev.spring.boot.HelloWorld;
+package dev.spring.boot.HelloWorld.Service;
 
 import dev.spring.boot.HelloWorld.Entity.Todo;
+import dev.spring.boot.HelloWorld.Repository.ToDoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
